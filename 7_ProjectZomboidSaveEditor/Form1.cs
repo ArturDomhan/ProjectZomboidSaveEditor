@@ -16,5 +16,15 @@ namespace _7_ProjectZomboidSaveEditor
         {
             InitializeComponent();
         }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Save Editor for Project Zomboid 34.28\n\n  Walzer", "About");
+        }
+
+        private void BTN_Open_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
