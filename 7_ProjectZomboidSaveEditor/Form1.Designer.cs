@@ -1894,6 +1894,7 @@
             // 
             // folderBrowserDialog1
             // 
+            this.folderBrowserDialog1.Description = "C:\\Users\\%username%\\Zomboid\\Saves\\Sandbox\\%savename%\\";
             this.folderBrowserDialog1.RootFolder = System.Environment.SpecialFolder.UserProfile;
             this.folderBrowserDialog1.SelectedPath = "C:\\Users\\%username%\\Zomboid\\Saves";
             // 
