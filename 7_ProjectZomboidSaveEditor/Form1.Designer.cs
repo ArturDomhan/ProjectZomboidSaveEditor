@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.ZombieDistribution = new System.Windows.Forms.ComboBox();
             this.ZombieCount = new System.Windows.Forms.ComboBox();
@@ -1912,6 +1913,7 @@
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Save Editor for Project Zomboid 34.28";
             this.groupBox1.ResumeLayout(false);
