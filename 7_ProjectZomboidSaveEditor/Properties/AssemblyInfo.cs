@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("7_ProjectZomboidSaveEditor_34.28")]
-[assembly: AssemblyDescription("v.1.02 Simpliest Error Handling")]
+[assembly: AssemblyTitle("7_ProjectZomboidSaveEditor_v105_f34.28")]
+[assembly: AssemblyDescription("v.1.05 Last Stable")]
 [assembly: AssemblyConfiguration("Default")]
 [assembly: AssemblyCompany("Domhans")]
-[assembly: AssemblyProduct("7_ProjectZomboidSaveEditor_34.28")]
+[assembly: AssemblyProduct("7_ProjectZomboidSaveEditor_v105_f34.28")]
 [assembly: AssemblyCopyright("Artur Domhan, beichtvater@ymail.com, 2016")]
 [assembly: AssemblyTrademark("Artur Domhan")]
 [assembly: AssemblyCulture("")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.2.0")]
-[assembly: AssemblyFileVersion("1.0.2.0")]
+[assembly: AssemblyVersion("1.0.5.0")]
+[assembly: AssemblyFileVersion("1.0.5.0")]

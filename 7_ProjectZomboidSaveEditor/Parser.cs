@@ -8,17 +8,17 @@ using System.Windows.Forms;
 
 namespace _7_ProjectZomboidSaveEditor
 {
-    class Parser
+    public class Parser
     {
-        public Parser(string filePath)
-        {
-            this.filePath = filePath;
-        }
 
             private string dirtyString = "Have not been initialised!";
             public string[] mapParsed = new string[116];
-            private string filePath = "Have not been pointed!";
+            private string filePath = "wtf";
 
+        public Parser(string dirtyString)
+        {
+            this.dirtyString = dirtyString;
+        }
 
         public void InitialParser()
         {
@@ -80,7 +80,7 @@ namespace _7_ProjectZomboidSaveEditor
           
             if (dirtyString[entryPosition + textOption.Length + 2] == 't')
             {
-                mapParsed[optionPosition + 1] = "true";                
+                mapParsed[optionPosition + 1] = "true";
                 return itemForBoolean = (entryPosition + textOption.Length + 6);
             }
             else
@@ -91,26 +91,23 @@ namespace _7_ProjectZomboidSaveEditor
         }
 
 
-        public void Loader()
+        /*public void Loader()
         {
             StreamReader mapReader = new StreamReader(filePath);
             dirtyString = mapReader.ReadToEnd();
             mapReader.Close();
-        }
+        }*/
 
 
-        public void Saver()
+            StringBuilder stringResult = new StringBuilder("initialised");
+        public string StringAssembler()
         {
-            StringBuilder stringResult = new StringBuilder();
             for (int stroke = 0; stroke < mapParsed.Length; stroke++)
             {
                 stringResult.Append(mapParsed[stroke]);
             }
-            StreamWriter fileOut = new StreamWriter(filePath, false);
-            fileOut.WriteLine(stringResult);
-            fileOut.Close();
+            return stringResult.ToString();
         }
-
 
         public void ExceptionController(bool filler = false,
                                         bool fileopen = false,
@@ -139,6 +136,7 @@ namespace _7_ProjectZomboidSaveEditor
                         }
                     dateStamp = DateTime.Now;
                     fileLog.WriteLine(dateStamp + "----------------------------mapParsed-END--------------------------------");
+                    Form1.ExcWriter(ExecErrCode : "filler");
                 }
                 catch
                 {
@@ -155,7 +153,7 @@ namespace _7_ProjectZomboidSaveEditor
                     fileLog.WriteLine("\nfilePath ---   " + filePath);
                     dateStamp = DateTime.Now;
                     fileLog.WriteLine(dateStamp + "--------------fileopen--END-------------------------------");
-                    MessageBox.Show("cant open the file:\n— file is not exist in selected catalog\n— you are does not have the rights to operate this.\ncheck your rights and file existence", "fileopen - filepath");
+                    Form1.ExcWriter(ExecErrCode : "fileopen");
                 }
                 catch
                 {
@@ -173,7 +171,8 @@ namespace _7_ProjectZomboidSaveEditor
                     fileLog.WriteLine("\ndirtyString ---   \n" + dirtyString);
                     dateStamp = DateTime.Now;
                     fileLog.WriteLine(dateStamp + "---------------loader-END-------------------------------");
-                    MessageBox.Show("can not open the file: \n— file is not exist in selected catalog\n — you are does not have the rights to operate this.\ncheck your rights and file existence", "fileopen - filepath");
+                    Form1.ExcWriter(ExecErrCode : "loader");
+
                 }
                 catch
                 {
@@ -195,7 +194,7 @@ namespace _7_ProjectZomboidSaveEditor
                         }
                     dateStamp = DateTime.Now;
                     fileLog.WriteLine(dateStamp + "----------------------------parser-END--------------------------------");
-                    MessageBox.Show("Something went wrong. Now program created 'errorlog' file near .exe, please send it to beichtvater@ymail.com", "Parser Exception");
+                    Form1.ExcWriter(ExecErrCode : "parser");
                 }
                 catch
                 {
@@ -217,7 +216,6 @@ namespace _7_ProjectZomboidSaveEditor
                         }
                     dateStamp = DateTime.Now;
                     fileLog.WriteLine(dateStamp + "----------------------------fillerEND-END--------------------------------");
-                    MessageBox.Show("Something went wrong. Now program created 'errorlog' file near .exe, please send it to beichtvater@ymail.com", "Filler Exception");
                 }
                 catch
                 {
@@ -231,6 +229,8 @@ namespace _7_ProjectZomboidSaveEditor
                 {
                     var dateStamp = DateTime.Now;
                     fileLog.WriteLine(dateStamp + "-----------------------------stringAssembler--------------------------------");
+                    fileLog.WriteLine("stringResult ---   \n" + stringResult);
+                    Form1.ExcWriter(ExecErrCode : "stringAssembler");
                 }
                 catch
                 {
@@ -245,6 +245,7 @@ namespace _7_ProjectZomboidSaveEditor
                     var dateStamp = DateTime.Now;
                     fileLog.WriteLine(dateStamp + "-----------------------------saver--------------------------------");
                     //fileLog.WriteLine("\stringResult ---   \n" + stringResult);
+                    Form1.ExcWriter(ExecErrCode : "saver");
                 }
                 catch
                 {

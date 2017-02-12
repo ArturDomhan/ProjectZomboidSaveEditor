@@ -1896,7 +1896,8 @@
             // 
             this.folderBrowserDialog1.Description = "C:\\Users\\%username%\\Zomboid\\Saves\\Sandbox\\%savename%\\";
             this.folderBrowserDialog1.RootFolder = System.Environment.SpecialFolder.UserProfile;
-            this.folderBrowserDialog1.SelectedPath = "C:\\Users\\%username%\\Zomboid\\Saves";
+            this.folderBrowserDialog1.ShowNewFolderButton = false;
+            this.folderBrowserDialog1.SelectedPath = "Zomboid\\Saves";
             // 
             // Form1
             // 
@@ -1914,8 +1915,12 @@
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Save Editor for Project Zomboid 34.28";
             this.groupBox1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);

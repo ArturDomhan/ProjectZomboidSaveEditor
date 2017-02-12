@@ -13,30 +13,43 @@ namespace _7_ProjectZomboidSaveEditor
 {
     public partial class Form1 : Form
     {
-        private Parser parse;
-        
+        public Parser parse;
+        public FileProcessor filproc;
+        public ExcCtrller excCtrller;
 
         public Form1()
         {
             InitializeComponent();
+            this.parse = new Parser("initial");
+            this.excCtrller = new ExcCtrller();
         }
 
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Save Editor for Project Zomboid 34.28\n\n  Walzer", "About");
+            MessageBox.Show("Save Editor for Project Zomboid 34.28\n\n  Walzer, Beichtvater@ymail.com", "About");
         }
 
 
         private void BTN_Open_Click(object sender, EventArgs e)
         {
-            try {
+            try
+            {
                 folderBrowserDialog1.ShowDialog();
-                this.parse = new Parser(folderBrowserDialog1.SelectedPath + @"\map_sand.bin");
-            }catch { parse.ExceptionController(fileopen : true); return; }
-            try { 
-                parse.Loader();
+                if (File.Exists(folderBrowserDialog1.SelectedPath + @"\map_sand.bin") == true)
+                {this.filproc = new FileProcessor(folderBrowserDialog1.SelectedPath + @"\map_sand.bin");}
+                else
+                {parse.ExceptionController(fileopen : true); return;}
+            }
+            catch
+            {
+                parse.ExceptionController(fileopen : true); return;
+            }
+
+            try {
+                this.parse = new Parser(filproc.Loader());
             } catch { parse.ExceptionController(loader : true); return; }
+
             try {
                 parse.InitialParser();
              } catch { parse.ExceptionController(parser : true); return; }
@@ -109,13 +122,13 @@ namespace _7_ProjectZomboidSaveEditor
             catch
             {
                 parse.ExceptionController(filler : true);
-                StringAssembler();
+                FormReader();
                 parse.ExceptionController(fillerEND : true);
             }
         }
 
 
-        private void StringAssembler()
+        private void FormReader()
         {
             try
             {
@@ -188,15 +201,47 @@ namespace _7_ProjectZomboidSaveEditor
         private void BTN_Save_Click(object sender, EventArgs e)
         {
             try {
-            StringAssembler();
+            FormReader();
             } catch { return; }
+
+        string stringResult = parse.StringAssembler();
+
             try {
-                parse.Saver();
+                filproc.Saver(stringResult);
             } catch {
                 parse.ExceptionController(fillerEND : true, stringAssembler: true, saver : true);
             }
         }
 
-
+        public static void ExcWriter (string ExecErrCode = "none", string LogErrCode = "none"){
+            switch (ExecErrCode)
+            {
+                case "fileopen":
+                    MessageBox.Show("can not reach the file, can not get the address:\n— file is not exist in selected catalog\n— you are not have the rights to operate this.\ncheck your rights and file existence.\nyou must to choose catalog which containing the file", "fileopen - filepath");
+                    break;
+                case "loader":
+                MessageBox.Show("cannt load the file: cannt recieve stream, cannt read the data\n — you do not have the rights to operate file\ncheck your rights", "fileopen - load");
+                    break;
+                case "parser":
+                    MessageBox.Show("Something went wrong: cannt parse the data. Now program has created 'errorlog' file near .exe, please send it and your 'bin' file to beichtvater@ymail.com for further corrections", "Parser Exception");
+                    break;
+                case "filler":
+                    MessageBox.Show("Something went wrong: cannt fill out forms. Now program has created 'errorlog' file near .exe, please send it and your 'bin' file to beichtvater@ymail.com for further corrections", "Filler Exception");
+                    break;
+                case "formReader":
+                    MessageBox.Show("Something went wrong: cannt read the forms. Now program has created 'errorlog' file near .exe, please send it and your 'bin' file to beichtvater@ymail.com for further corrections", "Reader Exception");
+                    break;
+                case "stringAssembler":
+                    MessageBox.Show("Something went wrong: cannt assemble the output string. Now program has created 'errorlog' file near .exe, please send it and your 'bin' file to beichtvater@ymail.com for further corrections", "stringAssembler Exception");
+                    break;
+                case "saver":
+                    MessageBox.Show("Something went wrong: cannt rewrite the output file. Now program has created 'errorlog' file near .exe, please send it and your \n - original map_sand.bin file \n - output map_sand.bin file \n to beichtvater@ymail.com for further corrections", "Saver Exception");
+                    break;
+                case "reserve2":
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
