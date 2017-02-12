@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Windows.Forms;
 
 namespace _7_ProjectZomboidSaveEditor
 {
@@ -14,9 +15,10 @@ namespace _7_ProjectZomboidSaveEditor
             this.filePath = filePath;
         }
 
-        private string dirtyString;
-        public string[] mapParsed = new string[116];
-        private string filePath;
+            private string dirtyString = "Have not been initialised!";
+            public string[] mapParsed = new string[116];
+            private string filePath = "Have not been pointed!";
+
 
         public void InitialParser()
         {
@@ -59,10 +61,11 @@ namespace _7_ProjectZomboidSaveEditor
                         }
                         stroke += 2;
                     }
-                    catch { }
-                }            
+                    catch {}
+                }
             }
         }
+
 
         public int BoolParser(string textOption, int optionPosition)
         {
@@ -87,12 +90,14 @@ namespace _7_ProjectZomboidSaveEditor
             }
         }
 
+
         public void Loader()
         {
             StreamReader mapReader = new StreamReader(filePath);
             dirtyString = mapReader.ReadToEnd();
             mapReader.Close();
         }
+
 
         public void Saver()
         {
@@ -105,6 +110,154 @@ namespace _7_ProjectZomboidSaveEditor
             fileOut.WriteLine(stringResult);
             fileOut.Close();
         }
+
+
+        public void ExceptionController(bool filler = false,
+                                        bool fileopen = false,
+                                        bool loader = false,
+                                        bool parser = false,
+                                        bool fillerEND = false,
+                                        bool stringAssembler = false,
+                                        bool saver = false)
+    {
+        try
+        {
+            StreamWriter fileLog = new StreamWriter("errorlog.txt", true);
+
+
+            if (filler == true)
+            {
+                try
+                {
+                    var dateStamp = DateTime.Now;
+                    fileLog.WriteLine(dateStamp + "----------------------------filler-mapParsed--------------------------------");
+                    fileLog.WriteLine("\ndirtyString ---   \n" + dirtyString);
+                    fileLog.WriteLine("\nmapParsed ---   \n");
+                    for (int strokeLog = 0; strokeLog < mapParsed.Length; strokeLog++)
+                        {
+                            fileLog.WriteLine(strokeLog + " -- " + mapParsed[strokeLog]);
+                        }
+                    dateStamp = DateTime.Now;
+                    fileLog.WriteLine(dateStamp + "----------------------------mapParsed-END--------------------------------");
+                }
+                catch
+                {
+                    MessageBox.Show("cant write the log", "Error in errorer");
+                }
+            }
+
+            if (fileopen == true)
+            {
+                try
+                {
+                    var dateStamp = DateTime.Now;
+                    fileLog.WriteLine(dateStamp + "--------------fileopen---------------------------------");
+                    fileLog.WriteLine("\nfilePath ---   " + filePath);
+                    dateStamp = DateTime.Now;
+                    fileLog.WriteLine(dateStamp + "--------------fileopen--END-------------------------------");
+                    MessageBox.Show("cant open the file:\n— file is not exist in selected catalog\n— you are does not have the rights to operate this.\ncheck your rights and file existence", "fileopen - filepath");
+                }
+                catch
+                {
+                    MessageBox.Show("cant report filepath", "fileopen - filepath");
+                }
+            }
+
+            if (loader == true)
+            {
+                try
+                {
+                    var dateStamp = DateTime.Now;
+                    fileLog.WriteLine(dateStamp + "---------------loader--------------------------------");
+                    fileLog.WriteLine("\nfilePath ---   " + filePath);
+                    fileLog.WriteLine("\ndirtyString ---   \n" + dirtyString);
+                    dateStamp = DateTime.Now;
+                    fileLog.WriteLine(dateStamp + "---------------loader-END-------------------------------");
+                    MessageBox.Show("can not open the file: \n— file is not exist in selected catalog\n — you are does not have the rights to operate this.\ncheck your rights and file existence", "fileopen - filepath");
+                }
+                catch
+                {
+                    MessageBox.Show("cant report filepath", "Loader exception");
+                }
+            }
+
+            if (parser == true)
+            {
+                try
+                {
+                    var dateStamp = DateTime.Now;
+                    fileLog.WriteLine(dateStamp + "-----------------------------parser--------------------------------");
+                    fileLog.WriteLine("\ndirtyString ---   \n" + dirtyString);
+                    fileLog.WriteLine("\nmapParsed ---   \n");
+                    for (int strokeLog = 0; strokeLog < mapParsed.Length; strokeLog++)
+                        {
+                            fileLog.WriteLine(strokeLog + " -- " + mapParsed[strokeLog]);
+                        }
+                    dateStamp = DateTime.Now;
+                    fileLog.WriteLine(dateStamp + "----------------------------parser-END--------------------------------");
+                    MessageBox.Show("Something went wrong. Now program created 'errorlog' file near .exe, please send it to beichtvater@ymail.com", "Parser Exception");
+                }
+                catch
+                {
+                    MessageBox.Show("cant write the log", "Parser Exception");
+                }
+            }
+
+            if (fillerEND == true)
+            {
+                try
+                {
+                    var dateStamp = DateTime.Now;
+                    fileLog.WriteLine(dateStamp + "-----------------------------fillerEND--------------------------------");
+                    fileLog.WriteLine("\ndirtyString ---   \n" + dirtyString);
+                    fileLog.WriteLine("\nmapParsed ---   \n");
+                    for (int strokeLog = 1; strokeLog < mapParsed.Length; strokeLog += 2)
+                        {
+                            fileLog.WriteLine(strokeLog + " -- " + mapParsed[strokeLog]);
+                        }
+                    dateStamp = DateTime.Now;
+                    fileLog.WriteLine(dateStamp + "----------------------------fillerEND-END--------------------------------");
+                    MessageBox.Show("Something went wrong. Now program created 'errorlog' file near .exe, please send it to beichtvater@ymail.com", "Filler Exception");
+                }
+                catch
+                {
+                    MessageBox.Show("cant write the log", "Filler Exception");
+                }
+            }
+
+            if (stringAssembler == true)
+            {
+                try
+                {
+                    var dateStamp = DateTime.Now;
+                    fileLog.WriteLine(dateStamp + "-----------------------------stringAssembler--------------------------------");
+                }
+                catch
+                {
+                    MessageBox.Show("cant write the log", "stringAssembler Exception");
+                }
+            }
+
+            if (saver == true)
+            {
+                try
+                {
+                    var dateStamp = DateTime.Now;
+                    fileLog.WriteLine(dateStamp + "-----------------------------saver--------------------------------");
+                    //fileLog.WriteLine("\stringResult ---   \n" + stringResult);
+                }
+                catch
+                {
+                    MessageBox.Show("cant write the log", "saver Exception");
+                }
+            }
+        fileLog.Close();
+        }
+        catch
+        {
+            MessageBox.Show("cant access to log file or do not have rights to create it", "IO extention report");
+        }
+    }
 
         public void Tester(int test1, int test2, int test3)
         {

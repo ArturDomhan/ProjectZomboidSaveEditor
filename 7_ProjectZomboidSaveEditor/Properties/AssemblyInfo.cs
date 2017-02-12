@@ -5,13 +5,13 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("7_ProjectZomboidSaveEditor")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("7_ProjectZomboidSaveEditor")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2016")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTitle("7_ProjectZomboidSaveEditor_34.28")]
+[assembly: AssemblyDescription("v.1.02 Simpliest Error Handling")]
+[assembly: AssemblyConfiguration("Default")]
+[assembly: AssemblyCompany("Domhans")]
+[assembly: AssemblyProduct("7_ProjectZomboidSaveEditor_34.28")]
+[assembly: AssemblyCopyright("Artur Domhan, beichtvater@ymail.com, 2016")]
+[assembly: AssemblyTrademark("Artur Domhan")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.2.0")]
+[assembly: AssemblyFileVersion("1.0.2.0")]

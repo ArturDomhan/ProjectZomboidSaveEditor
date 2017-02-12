@@ -7,44 +7,46 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace _7_ProjectZomboidSaveEditor
 {
     public partial class Form1 : Form
     {
         private Parser parse;
+        
 
         public Form1()
         {
             InitializeComponent();
         }
 
+
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Save Editor for Project Zomboid 34.28\n\n  Walzer", "About");
         }
 
+
         private void BTN_Open_Click(object sender, EventArgs e)
         {
-            try
-            {
+            try {
                 folderBrowserDialog1.ShowDialog();
-                this.parse = new Parser(folderBrowserDialog1.SelectedPath + "\\map_sand.bin");
+                this.parse = new Parser(folderBrowserDialog1.SelectedPath + @"\map_sand.bin");
+            }catch { parse.ExceptionController(fileopen : true); return; }
+            try { 
                 parse.Loader();
+            } catch { parse.ExceptionController(loader : true); return; }
+            try {
                 parse.InitialParser();
-                FormFiller();
-            }
-
-            catch
-            {
-                MessageBox.Show("Cant load the file. Check the folder for file existence or release it.", "Loader Exception");
-            }
+             } catch { parse.ExceptionController(parser : true); return; }
+            FormFiller();
         }
+
 
         private void FormFiller()
         {
-            try
-            {
+            try {
                 ZombieCount.SelectedIndex = Convert.ToInt32(parse.mapParsed[1]) - 1;
                 ZombieDistribution.SelectedIndex = Convert.ToInt32(parse.mapParsed[3]) - 1;
                 DayLength.SelectedIndex = Convert.ToInt32(parse.mapParsed[5]) - 1;
@@ -72,7 +74,7 @@ namespace _7_ProjectZomboidSaveEditor
                 FoodLoot.SelectedIndex = Convert.ToInt32(parse.mapParsed[23]) - 1;
                 WeaponLoot.SelectedIndex = Convert.ToInt32(parse.mapParsed[25]) - 1;
                 OtherLoot.SelectedIndex = Convert.ToInt32(parse.mapParsed[27]) - 1;
-                XpMultiplier.Value = Convert.ToDecimal(parse.mapParsed[35]);
+                XpMultiplier.Value = Convert.ToDecimal(parse.mapParsed[35].Replace('.',','));
                 StatsDecrease.SelectedIndex = Convert.ToInt32(parse.mapParsed[39]) - 1;
                 Regeneration.SelectedIndex = Convert.ToInt32(parse.mapParsed[63]) - 1;
                 Nutrition.Checked = Convert.ToBoolean(parse.mapParsed[49]);
@@ -90,25 +92,28 @@ namespace _7_ProjectZomboidSaveEditor
                 Hearing.SelectedIndex = Convert.ToInt32(parse.mapParsed[85]) - 1;
                 Smell.SelectedIndex = Convert.ToInt32(parse.mapParsed[87]) - 1;
                 EnviramentalAttacks.Checked = Convert.ToBoolean(parse.mapParsed[89]);
-                PopulationMultiplier.Value = Convert.ToDecimal(parse.mapParsed[91]);
-                PopulationStartMultiplier.Value = Convert.ToDecimal(parse.mapParsed[93]);
-                PopulationPeakMultiplier.Value = Convert.ToDecimal(parse.mapParsed[95]);
-                PopulationPeakDay.Value = Convert.ToDecimal(parse.mapParsed[97]);
-                RespawnHours.Value = Convert.ToDecimal(parse.mapParsed[99]);
-                RespawnUnseenHours.Value = Convert.ToDecimal(parse.mapParsed[101]);
-                RespawnMultiplier.Value = Convert.ToDecimal(parse.mapParsed[103]);
-                RedistributeHours.Value = Convert.ToDecimal(parse.mapParsed[105]);
-                FollowSoundDistance.Value = Convert.ToDecimal(parse.mapParsed[107]);
-                RallyGroupSize.Value = Convert.ToDecimal(parse.mapParsed[109]);
-                RallyTravelDistance.Value = Convert.ToDecimal(parse.mapParsed[111]);
-                RallyGroupSeparation.Value = Convert.ToDecimal(parse.mapParsed[113]);
-                RallyGroupRadius.Value = Convert.ToDecimal(parse.mapParsed[115]);
+                PopulationMultiplier.Value = Convert.ToDecimal(parse.mapParsed[91].Replace('.',','));
+                PopulationStartMultiplier.Value = Convert.ToDecimal(parse.mapParsed[93].Replace('.',','));
+                PopulationPeakMultiplier.Value = Convert.ToDecimal(parse.mapParsed[95].Replace('.',','));
+                PopulationPeakDay.Value = Convert.ToDecimal(parse.mapParsed[97].Replace('.',','));
+                RespawnHours.Value = Convert.ToDecimal(parse.mapParsed[99].Replace('.',','));
+                RespawnUnseenHours.Value = Convert.ToDecimal(parse.mapParsed[101].Replace('.',','));
+                RespawnMultiplier.Value = Convert.ToDecimal(parse.mapParsed[103].Replace('.',','));
+                RedistributeHours.Value = Convert.ToDecimal(parse.mapParsed[105].Replace('.',','));
+                FollowSoundDistance.Value = Convert.ToDecimal(parse.mapParsed[107].Replace('.',','));
+                RallyGroupSize.Value = Convert.ToDecimal(parse.mapParsed[109].Replace('.',','));
+                RallyTravelDistance.Value = Convert.ToDecimal(parse.mapParsed[111].Replace('.',','));
+                RallyGroupSeparation.Value = Convert.ToDecimal(parse.mapParsed[113].Replace('.',','));
+                RallyGroupRadius.Value = Convert.ToDecimal(parse.mapParsed[115].Replace('.',','));
             }
             catch
             {
-                MessageBox.Show("Something went wrong. If you can repeat it, report it with the detailed description on beichtvater@ymail.com", "Filler Exception");
+                parse.ExceptionController(filler : true);
+                StringAssembler();
+                parse.ExceptionController(fillerEND : true);
             }
         }
+
 
         private void StringAssembler()
         {
@@ -141,7 +146,7 @@ namespace _7_ProjectZomboidSaveEditor
                 parse.mapParsed[23] = Convert.ToString((FoodLoot.SelectedIndex) + 1);
                 parse.mapParsed[25] = Convert.ToString((WeaponLoot.SelectedIndex) + 1);
                 parse.mapParsed[27] = Convert.ToString((OtherLoot.SelectedIndex) + 1);
-                parse.mapParsed[35] = Convert.ToString(XpMultiplier.Value);
+                parse.mapParsed[35] = Convert.ToString(XpMultiplier.Value).Replace(',','.');
                 parse.mapParsed[39] = Convert.ToString((StatsDecrease.SelectedIndex) + 1);
                 parse.mapParsed[63] = Convert.ToString((Regeneration.SelectedIndex) + 1);
                 parse.mapParsed[49] = Convert.ToString(Nutrition.Checked).ToLower();
@@ -159,37 +164,39 @@ namespace _7_ProjectZomboidSaveEditor
                 parse.mapParsed[85] = Convert.ToString((Hearing.SelectedIndex) + 1);
                 parse.mapParsed[87] = Convert.ToString((Smell.SelectedIndex) + 1);
                 parse.mapParsed[89] = Convert.ToString(EnviramentalAttacks.Checked).ToLower();
-                parse.mapParsed[91] = Convert.ToString(PopulationMultiplier.Value);
-                parse.mapParsed[93] = Convert.ToString(PopulationStartMultiplier.Value);
-                parse.mapParsed[95] = Convert.ToString(PopulationPeakMultiplier.Value);
-                parse.mapParsed[97] = Convert.ToString(PopulationPeakDay.Value);
-                parse.mapParsed[99] = Convert.ToString(RespawnHours.Value);
-                parse.mapParsed[101] = Convert.ToString(RespawnUnseenHours.Value);
-                parse.mapParsed[103] = Convert.ToString(RespawnMultiplier.Value);
-                parse.mapParsed[105] = Convert.ToString(RedistributeHours.Value);
-                parse.mapParsed[107] = Convert.ToString(FollowSoundDistance.Value);
-                parse.mapParsed[109] = Convert.ToString(RallyGroupSize.Value);
-                parse.mapParsed[111] = Convert.ToString(RallyTravelDistance.Value);
-                parse.mapParsed[113] = Convert.ToString(RallyGroupSeparation.Value);
-                parse.mapParsed[115] = Convert.ToString(RallyGroupRadius.Value);
+                parse.mapParsed[91] = Convert.ToString(PopulationMultiplier.Value).Replace(',','.');
+                parse.mapParsed[93] = Convert.ToString(PopulationStartMultiplier.Value).Replace(',','.');
+                parse.mapParsed[95] = Convert.ToString(PopulationPeakMultiplier.Value).Replace(',','.');
+                parse.mapParsed[97] = Convert.ToString(PopulationPeakDay.Value).Replace(',','.');
+                parse.mapParsed[99] = Convert.ToString(RespawnHours.Value).Replace(',','.');
+                parse.mapParsed[101] = Convert.ToString(RespawnUnseenHours.Value).Replace(',','.');
+                parse.mapParsed[103] = Convert.ToString(RespawnMultiplier.Value).Replace(',','.');
+                parse.mapParsed[105] = Convert.ToString(RedistributeHours.Value).Replace(',','.');
+                parse.mapParsed[107] = Convert.ToString(FollowSoundDistance.Value).Replace(',','.');
+                parse.mapParsed[109] = Convert.ToString(RallyGroupSize.Value).Replace(',','.');
+                parse.mapParsed[111] = Convert.ToString(RallyTravelDistance.Value).Replace(',','.');
+                parse.mapParsed[113] = Convert.ToString(RallyGroupSeparation.Value).Replace(',','.');
+                parse.mapParsed[115] = Convert.ToString(RallyGroupRadius.Value).Replace(',','.');
             }
             catch
             {
-                MessageBox.Show("Something went wrong. If you can repeat it, report it with the detailed description on beichtvater@ymail.com", "StringAssembler Exception");
+                parse.ExceptionController(fillerEND : true, stringAssembler: true);
             }
         }
 
+
         private void BTN_Save_Click(object sender, EventArgs e)
         {
-            try
-            {
-                StringAssembler();
+            try {
+            StringAssembler();
+            } catch { return; }
+            try {
                 parse.Saver();
-            }
-            catch
-            {
-                MessageBox.Show("Cant save the file. Check additional processes that can work with the file.", "Saver Exception");
+            } catch {
+                parse.ExceptionController(fillerEND : true, stringAssembler: true, saver : true);
             }
         }
+
+
     }
 }
